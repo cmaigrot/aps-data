@@ -53,6 +53,7 @@ DROP TABLE IF EXISTS admins CASCADE;
 CREATE TABLE admins (
     id              SERIAL NOT NULL PRIMARY KEY,
     name            VARCHAR(255) NOT NULL,
+    password        VARCHAR(255) NOT NULL,
     status          e_admins_statuses NOT NULL,
     phone_number    VARCHAR(255),
     mobile_number   VARCHAR(255),
