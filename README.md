@@ -1,4 +1,12 @@
 # aps-data
-Database for APS application
 
-Using postgreSQL
+Base de données pour l'application APS
+
+## Pré-requis
+Script adapté et testé pour postgreSQL 9.0 et supérieur
+
+## Schéma global
+Toutes les tables préfixées par **facebook_** sont spécifiques aux données recueillies via la Graph API de facebook.
+Toutes les tables préfixées par **twitter_** sont spécifiques aux données recueillies via l'API Twitter
+Les autres tables sont utilisées pour la gestion de l'application aps-www ou communes aux informations de Twitter et Facebook.
+
