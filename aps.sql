@@ -79,6 +79,7 @@ CREATE TABLE logs (
 );
 CREATE UNIQUE INDEX logs_id_idx ON logs( id );
 COMMENT ON TABLE logs IS 'Journalisation de toutes les commandes effectuées par un administrateur';
+COMMENT ON TABLE logs IS 'Référence de l\'administrateur ayant effectué la commande';
 COMMENT ON COLUMN logs.content IS 'commande SQL exécutée';
 
 
@@ -113,8 +114,8 @@ CREATE TABLE statuses (
     modified        TIMESTAMP WITHOUT TIME ZONE
 );
 CREATE UNIQUE INDEX statuses_idx ON statuses( id );
-COMMENT ON TABLE statuses IS 'Liste de tous les status des utilisateurs';
-COMMENT ON COLUMN statuses.user_id IS 'profil affecté par ce status';
+COMMENT ON TABLE statuses IS 'Liste de tous les status qui ont étés affectés aux utilisateurs';
+COMMENT ON COLUMN statuses.user_id IS 'Profil affecté par ce status';
 COMMENT ON COLUMN statuses.name IS 'valeur du status (actif, traité, archivé)';
 COMMENT ON COLUMN statuses.value IS 'motif du status si traité ou archivé';
 COMMENT ON COLUMN statuses.value IS 'motif détaillé du status si traité ou archivé';
@@ -139,7 +140,7 @@ CREATE TABLE facebook_applications (
     modified        TIMESTAMP WITHOUT TIME ZONE
 );
 CREATE UNIQUE INDEX facebook_applications_idx ON facebook_applications(id);
-
+COMMENT ON TABLE facebook_applications IS 'cf. Facebook Graph API /application ( https://developers.facebook.com/docs/graph-api/reference/application )';
 
 -- TABLE facebook_accounts *****************************************************
 DROP TABLE IF EXISTS facebook_users CASCADE;
@@ -182,7 +183,7 @@ CREATE TABLE facebook_users (
     modified            TIMESTAMP WITHOUT TIME ZONE
 );
 CREATE UNIQUE INDEX facebook_users_idx ON facebook_users( id );
-COMMENT ON TABLE facebook_users IS 'Liste de tous les comptes facebook';
+COMMENT ON TABLE facebook_users IS 'Liste de tous les comptes facebook. Cf. Facebook Graph API /user ( https://developers.facebook.com/docs/graph-api/reference/v2.2/user )';
 
 
 -- TABLE facebook_works ********************************************************
@@ -199,6 +200,7 @@ CREATE TABLE facebook_works (
     modified    TIMESTAMP WITHOUT TIME ZONE
 );
 CREATE UNIQUE INDEX facebook_works_idx ON facebook_works( id );
+COMMENT ON TABLE facebook_works IS 'cf. Facebook Graph API /user ( https://developers.facebook.com/docs/graph-api/reference/v2.2/user )';
 
 
 -- TABLE facebook_projects *****************************************************
@@ -212,6 +214,7 @@ CREATE TABLE facebook_projects (
     modified    TIMESTAMP WITHOUT TIME ZONE
 );
 CREATE UNIQUE INDEX facebook_projects_idx ON facebook_projects( id );
+COMMENT ON TABLE facebook_projects IS 'cf. Facebook Graph API /user ( https://developers.facebook.com/docs/graph-api/reference/v2.2/user )';
 
 
 -- TABLE facebook_projects_facebook_users **************************************
@@ -223,6 +226,7 @@ CREATE TABLE facebook_projects_facebook_users (
     modified            TIMESTAMP WITHOUT TIME ZONE
 );
 CREATE UNIQUE INDEX facebook_projects_facebook_users_idx ON facebook_projects_facebook_users( project_id, user_id );
+COMMENT ON TABLE facebook_projects_facebook_users IS 'Un profil peut avoir ou avoir eu plusieurs travaux';
 
 
 -- TABLE facebook_devices ******************************************************
@@ -236,6 +240,7 @@ CREATE TABLE facebook_devices (
     modified    TIMESTAMP WITHOUT TIME ZONE
 );
 CREATE UNIQUE INDEX facebook_devices_idx ON facebook_devices( id );
+COMMENT ON TABLE facebook_devices IS 'cf. Facebook Graph API /user ( https://developers.facebook.com/docs/graph-api/reference/v2.2/user )';
 
 
 -- TABLE facebook_educations ***************************************************
@@ -250,6 +255,7 @@ CREATE TABLE facebook_educations (
     modified    TIMESTAMP WITHOUT TIME ZONE
 );
 CREATE UNIQUE INDEX facebook_educations_idx ON facebook_educations( id );
+COMMENT ON TABLE facebook_educations IS 'cf. Facebook Graph API /user ( https://developers.facebook.com/docs/graph-api/reference/v2.2/user )';
 
 
 -- TABLE facebook_concentrations ***********************************************
@@ -262,6 +268,7 @@ CREATE TABLE facebook_concentrations (
     modified              TIMESTAMP WITHOUT TIME ZONE
 );
 CREATE UNIQUE INDEX facebook_concentrations_idx ON facebook_concentrations ( id );
+COMMENT ON TABLE facebook_concentrations IS 'cf. Facebook Graph API /user ( https://developers.facebook.com/docs/graph-api/reference/v2.2/user )';
 
 
 -- TABLE facebook_activities ***************************************************
@@ -273,7 +280,7 @@ CREATE TABLE facebook_activities (
     modified         TIMESTAMP WITHOUT TIME ZONE
 );
 CREATE UNIQUE INDEX facebook_activities_idx ON facebook_activities (user_id, page_id);
-
+COMMENT ON TABLE facebook_activities IS 'cf. Facebook Graph API /user/activities ( https://developers.facebook.com/docs/graph-api/reference/v2.2/user/activities/ )';
 
 -- TABLE facebook_books ********************************************************
 DROP TABLE IF EXISTS facebook_books CASCADE;
@@ -1021,7 +1028,7 @@ CREATE UNIQUE INDEX facebook_page_feeds_idx ON facebook_page_feeds(id);
 DROP TABLE IF EXISTS twitter_users CASCADE;
 CREATE TABLe twitter_users (
     id                      INT NOT NULL PRIMARY KEY,
-    user_id                 SERIAL REFERENCES users(id),
+    user_id                 INT REFERENCES users(id),
     name                    TEXT,
     profile_image_url       TEXT,
     created_at              TIMESTAMP WITHOUT TIME ZONE,
@@ -1062,7 +1069,7 @@ COMMENT ON COLUMN twitter_friendships.friend IS 'Profil suivi par le follower';
 -- TABLE twitter_statuses ******************************************************
 DROP TABLE IF EXISTS twitter_statuses CASCADE;
 CREATE TABLE twitter_statuses (
-    id                          INT NOT NULL PRIMARY KEY,
+    id                          NUMERIC NOT NULL PRIMARY KEY,
     user_id                     INT REFERENCES twitter_users(id),
     created_at                  TIMESTAMP WITHOUT TIME ZONE,
     in_reply_to_user_id         INT,
@@ -1116,7 +1123,7 @@ COMMIT;
 -- *****************************************************************************
 
 -- TODO :
--- * Rajouter une table pour suivre l'évolution des amis sur facebook
--- * Rajouter une table pour suivre l'évolution des friendships sur twitter
+-- * Rajouter une table pour suivre l'évolution d'un profil sur facebook
+-- * Rajouter une table pour suivre l'évolution d'un profil sur twitter
 -- * Rajouter une table pour les notes des médecins
 -- * Voir comment stocker les métas infos (e.g : Un medecin met en favoris un message)
