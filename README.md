@@ -12,6 +12,8 @@ Les autres tables sont utilisées pour la gestion de l'application aps-www ou co
 
 ### Vue générale
 
+![Vue générale](https://github.com/rmonin/aps-data/blob/master/img/scheme-genral.png)
+
 ### Coté Facebook
 
 ### Coté Twitter
