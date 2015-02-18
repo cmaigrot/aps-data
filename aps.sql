@@ -60,8 +60,8 @@ CREATE TABLE admins (
     address         VARCHAR(255),
     email           VARCHAR(255),
     permission      INT,
-    created         TIMESTAMP WITHOUT TIME ZONE,
-    modified        TIMESTAMP WITHOUT TIME ZONE
+    created         TIMESTAMP WITH TIME ZONE,
+    modified        TIMESTAMP WITH TIME ZONE
 );
 CREATE UNIQUE INDEX admins_idx ON admins( id );
 COMMENT ON TABLE admins IS 'Liste de tous les utilisateurs l\'application';
@@ -74,8 +74,8 @@ CREATE TABLE logs (
     id              SERIAL NOT NULL PRIMARY KEY,
     admin_id        INT NOT NULL REFERENCES admins(id),
     content         TEXT,
-    created         TIMESTAMP WITHOUT TIME ZONE,
-    modified        TIMESTAMP WITHOUT TIME ZONE
+    created         TIMESTAMP WITH TIME ZONE,
+    modified        TIMESTAMP WITH TIME ZONE
 );
 CREATE UNIQUE INDEX logs_id_idx ON logs( id );
 COMMENT ON TABLE logs IS 'Journalisation de toutes les commandes effectuées par un administrateur';
@@ -90,13 +90,13 @@ CREATE TABLE users (
     name            VARCHAR(255) NOT NULL,
     surname         VARCHAR(255) NOT NULL,
     gender          e_users_gender NOT NULL,
-    date_of_birth   TIMESTAMP WITHOUT TIME ZONE,
+    date_of_birth   TIMESTAMP WITH TIME ZONE,
     phone_number    VARCHAR(255),
     mobile_number   VARCHAR(255),
     address         VARCHAR(255),
     email           VARCHAR(255),
-    created         TIMESTAMP WITHOUT TIME ZONE,
-    modified        TIMESTAMP WITHOUT TIME ZONE
+    created         TIMESTAMP WITH TIME ZONE,
+    modified        TIMESTAMP WITH TIME ZONE
 );
 CREATE UNIQUE INDEX users_idx ON users( id );
 COMMENT ON TABLE users IS 'Liste de tous les profils suivi par l\'application';
@@ -110,8 +110,8 @@ CREATE TABLE statuses (
     name            e_statuses_name NOT NULL,
     value           VARCHAR(255),
     message         TEXT,
-    created         TIMESTAMP WITHOUT TIME ZONE,
-    modified        TIMESTAMP WITHOUT TIME ZONE
+    created         TIMESTAMP WITH TIME ZONE,
+    modified        TIMESTAMP WITH TIME ZONE
 );
 CREATE UNIQUE INDEX statuses_idx ON statuses( id );
 COMMENT ON TABLE statuses IS 'Liste de tous les status qui ont étés affectés aux utilisateurs';
@@ -136,8 +136,8 @@ CREATE TABLE facebook_applications (
     link            TEXT,
     logo_url        TEXT,
 
-    created         TIMESTAMP WITHOUT TIME ZONE,
-    modified        TIMESTAMP WITHOUT TIME ZONE
+    created         TIMESTAMP WITH TIME ZONE,
+    modified        TIMESTAMP WITH TIME ZONE
 );
 CREATE UNIQUE INDEX facebook_applications_idx ON facebook_applications(id);
 COMMENT ON TABLE facebook_applications IS 'cf. Facebook Graph API /application ( https://developers.facebook.com/docs/graph-api/reference/application )';
@@ -179,8 +179,8 @@ CREATE TABLE facebook_users (
     third_party_id      TEXT,
     verified            BOOLEAN,
     website             TEXT,
-    created             TIMESTAMP WITHOUT TIME ZONE,
-    modified            TIMESTAMP WITHOUT TIME ZONE
+    created             TIMESTAMP WITH TIME ZONE,
+    modified            TIMESTAMP WITH TIME ZONE
 );
 CREATE UNIQUE INDEX facebook_users_idx ON facebook_users( id );
 COMMENT ON TABLE facebook_users IS 'Liste de tous les comptes facebook. Cf. Facebook Graph API /user ( https://developers.facebook.com/docs/graph-api/reference/v2.2/user )';
@@ -194,10 +194,10 @@ CREATE TABLE facebook_works (
     employer    VARCHAR(255) REFERENCES facebook_pages(id),
     location    VARCHAR(255) REFERENCES facebook_pages(id),
     position    VARCHAR(255) REFERENCES facebook_pages(id),
-    start_date  TIMESTAMP WITHOUT TIME ZONE,
-    end_date    TIMESTAMP WITHOUT TIME ZONE,
-    created     TIMESTAMP WITHOUT TIME ZONE,
-    modified    TIMESTAMP WITHOUT TIME ZONE
+    start_date  TIMESTAMP WITH TIME ZONE,
+    end_date    TIMESTAMP WITH TIME ZONE,
+    created     TIMESTAMP WITH TIME ZONE,
+    modified    TIMESTAMP WITH TIME ZONE
 );
 CREATE UNIQUE INDEX facebook_works_idx ON facebook_works( id );
 COMMENT ON TABLE facebook_works IS 'cf. Facebook Graph API /user ( https://developers.facebook.com/docs/graph-api/reference/v2.2/user )';
@@ -208,10 +208,10 @@ DROP TABLE IF EXISTS facebook_projects CASCADE;
 CREATE TABLE facebook_projects (
     id          SERIAL NOT NULL PRIMARY KEY,
     description TEXT,
-    start_date  TIMESTAMP WITHOUT TIME ZONE,
-    end_date    TIMESTAMP WITHOUT TIME ZONE,
-    created     TIMESTAMP WITHOUT TIME ZONE,
-    modified    TIMESTAMP WITHOUT TIME ZONE
+    start_date  TIMESTAMP WITH TIME ZONE,
+    end_date    TIMESTAMP WITH TIME ZONE,
+    created     TIMESTAMP WITH TIME ZONE,
+    modified    TIMESTAMP WITH TIME ZONE
 );
 CREATE UNIQUE INDEX facebook_projects_idx ON facebook_projects( id );
 COMMENT ON TABLE facebook_projects IS 'cf. Facebook Graph API /user ( https://developers.facebook.com/docs/graph-api/reference/v2.2/user )';
@@ -222,8 +222,8 @@ DROP TABLE IF EXISTS facebook_projects_facebook_users CASCADE;
 CREATE TABLE facebook_projects_facebook_users (
     project_id          SERIAL REFERENCES facebook_projects(id),
     user_id             VARCHAR(255) REFERENCES facebook_users(id),
-    created             TIMESTAMP WITHOUT TIME ZONE,
-    modified            TIMESTAMP WITHOUT TIME ZONE
+    created             TIMESTAMP WITH TIME ZONE,
+    modified            TIMESTAMP WITH TIME ZONE
 );
 CREATE UNIQUE INDEX facebook_projects_facebook_users_idx ON facebook_projects_facebook_users( project_id, user_id );
 COMMENT ON TABLE facebook_projects_facebook_users IS 'Un profil peut avoir ou avoir eu plusieurs travaux';
@@ -236,8 +236,8 @@ CREATE TABLE facebook_devices (
     user_id     VARCHAR(255) REFERENCES facebook_users(id),
     hardware    TEXT,
     os          TEXT,
-    created     TIMESTAMP WITHOUT TIME ZONE,
-    modified    TIMESTAMP WITHOUT TIME ZONE
+    created     TIMESTAMP WITH TIME ZONE,
+    modified    TIMESTAMP WITH TIME ZONE
 );
 CREATE UNIQUE INDEX facebook_devices_idx ON facebook_devices( id );
 COMMENT ON TABLE facebook_devices IS 'cf. Facebook Graph API /user ( https://developers.facebook.com/docs/graph-api/reference/v2.2/user )';
@@ -251,8 +251,8 @@ CREATE TABLE facebook_educations (
     school      VARCHAR(255) REFERENCES facebook_pages(id),
     year        VARCHAR(255) REFERENCES facebook_pages(id),
     type        TEXT,
-    created     TIMESTAMP WITHOUT TIME ZONE,
-    modified    TIMESTAMP WITHOUT TIME ZONE
+    created     TIMESTAMP WITH TIME ZONE,
+    modified    TIMESTAMP WITH TIME ZONE
 );
 CREATE UNIQUE INDEX facebook_educations_idx ON facebook_educations( id );
 COMMENT ON TABLE facebook_educations IS 'cf. Facebook Graph API /user ( https://developers.facebook.com/docs/graph-api/reference/v2.2/user )';
@@ -264,8 +264,8 @@ CREATE TABLE facebook_concentrations (
     id                    SERIAL NOT NULL PRIMARY KEY,
     education_id          SERIAL REFERENCES facebook_educations(id),
     page_id               VARCHAR(255) REFERENCES facebook_pages(id),
-    created               TIMESTAMP WITHOUT TIME ZONE,
-    modified              TIMESTAMP WITHOUT TIME ZONE
+    created               TIMESTAMP WITH TIME ZONE,
+    modified              TIMESTAMP WITH TIME ZONE
 );
 CREATE UNIQUE INDEX facebook_concentrations_idx ON facebook_concentrations ( id );
 COMMENT ON TABLE facebook_concentrations IS 'cf. Facebook Graph API /user ( https://developers.facebook.com/docs/graph-api/reference/v2.2/user )';
@@ -276,8 +276,8 @@ DROP TABLE IF EXISTS facebook_activities CASCADE;
 CREATE TABLE facebook_activities (
     user_id          VARCHAR(255) REFERENCES facebook_users(id),
     page_id          VARCHAR(255) REFERENCES facebook_pages(id),
-    created          TIMESTAMP WITHOUT TIME ZONE,
-    modified         TIMESTAMP WITHOUT TIME ZONE
+    created          TIMESTAMP WITH TIME ZONE,
+    modified         TIMESTAMP WITH TIME ZONE
 );
 CREATE UNIQUE INDEX facebook_activities_idx ON facebook_activities (user_id, page_id);
 COMMENT ON TABLE facebook_activities IS 'cf. Facebook Graph API /user/activities ( https://developers.facebook.com/docs/graph-api/reference/v2.2/user/activities/ )';
@@ -287,8 +287,8 @@ DROP TABLE IF EXISTS facebook_books CASCADE;
 CREATE TABLE facebook_books (
     user_id          VARCHAR(255) REFERENCES facebook_users(id),
     page_id          VARCHAR(255) REFERENCES facebook_pages(id),
-    created          TIMESTAMP WITHOUT TIME ZONE,
-    modified         TIMESTAMP WITHOUT TIME ZONE
+    created          TIMESTAMP WITH TIME ZONE,
+    modified         TIMESTAMP WITH TIME ZONE
 );
 CREATE UNIQUE INDEX facebook_books_idx ON facebook_books (user_id, page_id);
 
@@ -298,8 +298,8 @@ DROP TABLE IF EXISTS facebook_games CASCADE;
 CREATE TABLE facebook_games (
     user_id          VARCHAR(255) REFERENCES facebook_users(id),
     page_id          VARCHAR(255) REFERENCES facebook_pages(id),
-    created          TIMESTAMP WITHOUT TIME ZONE,
-    modified         TIMESTAMP WITHOUT TIME ZONE
+    created          TIMESTAMP WITH TIME ZONE,
+    modified         TIMESTAMP WITH TIME ZONE
 );
 CREATE UNIQUE INDEX facebook_games_idx ON facebook_games (user_id, page_id);
 
@@ -309,8 +309,8 @@ DROP TABLE IF EXISTS facebook_interests CASCADE;
 CREATE TABLE facebook_interests (
     user_id          VARCHAR(255) REFERENCES facebook_users(id),
     page_id          VARCHAR(255) REFERENCES facebook_pages(id),
-    created          TIMESTAMP WITHOUT TIME ZONE,
-    modified         TIMESTAMP WITHOUT TIME ZONE
+    created          TIMESTAMP WITH TIME ZONE,
+    modified         TIMESTAMP WITH TIME ZONE
 );
 CREATE UNIQUE INDEX facebook_interests_idx ON facebook_interests (user_id, page_id);
 
@@ -320,8 +320,8 @@ DROP TABLE IF EXISTS facebook_movies CASCADE;
 CREATE TABLE facebook_movies (
     user_id          VARCHAR(255) REFERENCES facebook_users(id),
     page_id          VARCHAR(255) REFERENCES facebook_pages(id),
-    created          TIMESTAMP WITHOUT TIME ZONE,
-    modified         TIMESTAMP WITHOUT TIME ZONE
+    created          TIMESTAMP WITH TIME ZONE,
+    modified         TIMESTAMP WITH TIME ZONE
 );
 CREATE UNIQUE INDEX facebook_movies_idx ON facebook_movies (user_id, page_id);
 
@@ -331,8 +331,8 @@ DROP TABLE IF EXISTS facebook_musics CASCADE;
 CREATE TABLE facebook_musics (
     user_id          VARCHAR(255) REFERENCES facebook_users(id),
     page_id          VARCHAR(255) REFERENCES facebook_pages(id),
-    created          TIMESTAMP WITHOUT TIME ZONE,
-    modified         TIMESTAMP WITHOUT TIME ZONE
+    created          TIMESTAMP WITH TIME ZONE,
+    modified         TIMESTAMP WITH TIME ZONE
 );
 CREATE UNIQUE INDEX facebook_musics_idx ON facebook_musics (user_id, page_id);
 
@@ -342,8 +342,8 @@ DROP TABLE IF EXISTS facebook_television CASCADE;
 CREATE TABLE facebook_television (
     user_id         VARCHAR(255) REFERENCES facebook_users(id),
     page_id         VARCHAR(255) REFERENCES facebook_pages(id),
-    created         TIMESTAMP WITHOUT TIME ZONE,
-    modified        TIMESTAMP WITHOUT TIME ZONE
+    created         TIMESTAMP WITH TIME ZONE,
+    modified        TIMESTAMP WITH TIME ZONE
 );
 CREATE UNIQUE INDEX facebook_television_idx ON facebook_television (user_id, page_id);
 
@@ -353,11 +353,11 @@ DROP TABLE IF EXISTS facebook_achievements CASCADE;
 CREATE TABLE facebook_achievements (
     id                      VARCHAR(255) NOT NULL PRIMARY KEY,
     user_id                 VARCHAR(255) REFERENCES facebook_users(id),
-    publish_time            TIMESTAMP WITHOUT TIME ZONE,
+    publish_time            TIMESTAMP WITH TIME ZONE,
     application_id          VARCHAR(255) REFERENCES facebook_applications(id),
     no_feed_story           BOOLEAN,
-    created                 TIMESTAMP WITHOUT TIME ZONE,
-    modified                TIMESTAMP WITHOUT TIME ZONE
+    created                 TIMESTAMP WITH TIME ZONE,
+    modified                TIMESTAMP WITH TIME ZONE
 );
 CREATE UNIQUE INDEX facebook_achievements_idx ON facebook_achievements (id);
 
@@ -369,7 +369,7 @@ CREATE TABLE facebook_albums (
     can_upload          BOOLEAN,
     count               INT,
     cover_photo         VARCHAR(255) REFERENCES facebook_photos(id),
-    created_time        TIMESTAMP WITHOUT TIME ZONE,
+    created_time        TIMESTAMP WITH TIME ZONE,
     description         TEXT,
     user_id             VARCHAR(255) REFERENCES facebook_users(id),
     link                TEXT,
@@ -378,9 +378,9 @@ CREATE TABLE facebook_albums (
     place               VARCHAR(255) REFERENCES facebook_pages(id),
     privacy             TEXT,
     type                e_facebook_albums_type,
-    updated_time        TIMESTAMP WITHOUT TIME ZONE,
-    created             TIMESTAMP WITHOUT TIME ZONE,
-    modified            TIMESTAMP WITHOUT TIME ZONE
+    updated_time        TIMESTAMP WITH TIME ZONE,
+    created             TIMESTAMP WITH TIME ZONE,
+    modified            TIMESTAMP WITH TIME ZONE
 );
 CREATE UNIQUE INDEX facebook_albums_idx ON facebook_albums (id);
 
@@ -390,9 +390,9 @@ DROP TABLE IF EXISTS facebook_photos CASCADE;
 CREATE TABLE facebook_photos (
     id                          VARCHAR(255) NOT NULL PRIMARY KEY,
     album_id                    VARCHAR(255) REFERENCES facebook_albums(id),
-    backdated_time              TIMESTAMP WITHOUT TIME ZONE,
+    backdated_time              TIMESTAMP WITH TIME ZONE,
     backdated_time_granularity  e_facebook_photos_granularity,
-    created_time                TIMESTAMP WITHOUT TIME ZONE,
+    created_time                TIMESTAMP WITH TIME ZONE,
     user_id                     VARCHAR(255) REFERENCES facebook_users(id),
     page_id                     VARCHAR(255) REFERENCES facebook_pages(id),
     height                      INT,
@@ -404,10 +404,10 @@ CREATE TABLE facebook_photos (
     place                       VARCHAR(255) REFERENCES facebook_pages(id),
     position                    INT,
     source                      TEXT,
-    updated_time                TIMESTAMP WITHOUT TIME ZONE,
+    updated_time                TIMESTAMP WITH TIME ZONE,
     width                       INT,
-    created                     TIMESTAMP WITHOUT TIME ZONE,
-    modified                    TIMESTAMP WITHOUT TIME ZONE
+    created                     TIMESTAMP WITH TIME ZONE,
+    modified                    TIMESTAMP WITH TIME ZONE
 );
 CREATE UNIQUE INDEX facebook_photos_idx ON facebook_photos(id);
 
@@ -416,7 +416,7 @@ CREATE UNIQUE INDEX facebook_photos_idx ON facebook_photos(id);
 DROP TABLE IF EXISTS facebook_links CASCADE;
 CREATE TABLE facebook_links (
     id              VARCHAR(255) NOT NULL PRIMARY KEY,
-    created_time    TIMESTAMP WITHOUT TIME ZONE,
+    created_time    TIMESTAMP WITH TIME ZONE,
     description     TEXT,
     user_id         VARCHAR(255) REFERENCES facebook_users(id),
     icon            TEXT,
@@ -424,8 +424,8 @@ CREATE TABLE facebook_links (
     message         TEXT,
     name            TEXT,
     picture         TEXT,
-    created         TIMESTAMP WITHOUT TIME ZONE,
-    modified        TIMESTAMP WITHOUT TIME ZONE
+    created         TIMESTAMP WITH TIME ZONE,
+    modified        TIMESTAMP WITH TIME ZONE
 );
 CREATE UNIQUE INDEX facebook_links_idx ON facebook_links(id);
 
@@ -446,9 +446,9 @@ CREATE TABLE facebook_groups (
     parent_page_id      VARCHAR(255) REFERENCES facebook_pages(id),
     parent_user_id      VARCHAR(255) REFERENCES facebook_users(id),
     privacy             TEXT,
-    updated_time        TIMESTAMP WITHOUT TIME ZONE,
-    created             TIMESTAMP WITHOUT TIME ZONE,
-    modified            TIMESTAMP WITHOUT TIME ZONE
+    updated_time        TIMESTAMP WITH TIME ZONE,
+    created             TIMESTAMP WITH TIME ZONE,
+    modified            TIMESTAMP WITH TIME ZONE
 );
 CREATE UNIQUE INDEX facebook_groups_idx ON facebook_groups(id);
 
@@ -493,8 +493,8 @@ CREATE TABLE facebook_pages (
     username                        TEXT,
     website                         TEXT,
     were_here_count                 INT,
-    created                         TIMESTAMP WITHOUT TIME ZONE,
-    modified                        TIMESTAMP WITHOUT TIME ZONE
+    created                         TIMESTAMP WITH TIME ZONE,
+    modified                        TIMESTAMP WITH TIME ZONE
 );
 CREATE UNIQUE INDEX facebook_pages_idx ON facebook_pages(id);
 
@@ -506,12 +506,12 @@ CREATE TABLE facebook_milestones (
     title           TEXT,
     page_id         VARCHAR(255) REFERENCES facebook_pages(id),
     description     TEXT,
-    created_time    TIMESTAMP WITHOUT TIME ZONE,
-    updated_time    TIMESTAMP WITHOUT TIME ZONE,
-    start_time      TIMESTAMP WITHOUT TIME ZONE,
-    end_time        TIMESTAMP WITHOUT TIME ZONE,
-    created         TIMESTAMP WITHOUT TIME ZONE,
-    modified        TIMESTAMP WITHOUT TIME ZONE
+    created_time    TIMESTAMP WITH TIME ZONE,
+    updated_time    TIMESTAMP WITH TIME ZONE,
+    start_time      TIMESTAMP WITH TIME ZONE,
+    end_time        TIMESTAMP WITH TIME ZONE,
+    created         TIMESTAMP WITH TIME ZONE,
+    modified        TIMESTAMP WITH TIME ZONE
 );
 CREATE UNIQUE INDEX facebook_milestones_idx ON facebook_milestones(id);
 
@@ -522,7 +522,7 @@ CREATE TABLE facebook_events (
     id              VARCHAR(255) NOT NULL PRIMARY KEY,
     cover           VARCHAR(255) REFERENCES facebook_photos(id),
     description     TEXT,
-    end_time        TIMESTAMP WITHOUT TIME ZONE,
+    end_time        TIMESTAMP WITH TIME ZONE,
     is_date_only    BOOLEAN,
     location        TEXT,
     name            TEXT,
@@ -531,13 +531,13 @@ CREATE TABLE facebook_events (
     group_id        VARCHAR(255) REFERENCES facebook_groups(id),
     parent_group    VARCHAR(255) REFERENCES facebook_groups(id),
     privacy         TEXT,
-    start_time      TIMESTAMP WITHOUT TIME ZONE,
+    start_time      TIMESTAMP WITH TIME ZONE,
     ticket_uri      TEXT,
     timezone        TEXT,
-    updated_time    TIMESTAMP WITHOUT TIME ZONE,
+    updated_time    TIMESTAMP WITH TIME ZONE,
     venue           VARCHAR(255) REFERENCES facebook_pages(id),
-    created         TIMESTAMP WITHOUT TIME ZONE,
-    modified        TIMESTAMP WITHOUT TIME ZONE
+    created         TIMESTAMP WITH TIME ZONE,
+    modified        TIMESTAMP WITH TIME ZONE
 );
 CREATE UNIQUE INDEX facebook_events_idx ON facebook_events(id);
 
@@ -546,7 +546,7 @@ CREATE UNIQUE INDEX facebook_events_idx ON facebook_events(id);
 DROP TABLE IF EXISTS facebook_videos CASCADE;
 CREATE TABLE facebook_videos (
     id              VARCHAR(255) NOT NULL PRIMARY KEY,
-    created_time    TIMESTAMP WITHOUT TIME ZONE,
+    created_time    TIMESTAMP WITH TIME ZONE,
     description     TEXT,
     embed_html      TEXT,
     user_id         VARCHAR(255) REFERENCES facebook_users(id),
@@ -554,8 +554,8 @@ CREATE TABLE facebook_videos (
     group_id        VARCHAR(255) REFERENCES facebook_groups(id),
     event_id        VARCHAR(255) REFERENCES facebook_events(id),
     application_id  VARCHAR(255) REFERENCES facebook_applications(id),
-    created         TIMESTAMP WITHOUT TIME ZONE,
-    modified        TIMESTAMP WITHOUT TIME ZONE
+    created         TIMESTAMP WITH TIME ZONE,
+    modified        TIMESTAMP WITH TIME ZONE
 );
 CREATE UNIQUE INDEX facebook_videos_idx ON facebook_videos(id);
 
@@ -565,7 +565,7 @@ DROP TABLE IF EXISTS facebook_posts CASCADE;
 CREATE TABLE facebook_posts (
     id              VARCHAR(255) NOT NULL PRIMARY KEY,
     caption         TEXT,
-    created_time    TIMESTAMP WITHOUT TIME ZONE,
+    created_time    TIMESTAMP WITH TIME ZONE,
     description     TEXT,
     user_id         VARCHAR(255) REFERENCES facebook_users(id),
     page_id         VARCHAR(255) REFERENCES facebook_pages(id),
@@ -586,9 +586,9 @@ CREATE TABLE facebook_posts (
     status_type     e_facebook_posts_status_type,
     story           TEXT,
     type            e_facebook_posts_type,
-    updated_time    TIMESTAMP WITHOUT TIME ZONE,
-    created         TIMESTAMP WITHOUT TIME ZONE,
-    modified        TIMESTAMP WITHOUT TIME ZONE
+    updated_time    TIMESTAMP WITH TIME ZONE,
+    created         TIMESTAMP WITH TIME ZONE,
+    modified        TIMESTAMP WITH TIME ZONE
 );
 CREATE UNIQUE INDEX facebook_posts_idx ON facebook_posts(id);
 
@@ -604,9 +604,9 @@ CREATE TABLE facebook_statuses (
     application_id  VARCHAR(255) REFERENCES facebook_applications(id),
     message         TEXT,
     place           VARCHAR(255) REFERENCES facebook_pages(id),
-    updated_time    TIMESTAMP WITHOUT TIME ZONE,
-    created         TIMESTAMP WITHOUT TIME ZONE,
-    modified        TIMESTAMP WITHOUT TIME ZONE
+    updated_time    TIMESTAMP WITH TIME ZONE,
+    created         TIMESTAMP WITH TIME ZONE,
+    modified        TIMESTAMP WITH TIME ZONE
 );
 CREATE UNIQUE INDEX facebook_statuses_idx ON facebook_statuses(id);
 
@@ -619,7 +619,7 @@ CREATE TABLE facebook_comments (
     can_remove      BOOLEAN,
     can_hide        BOOLEAN,
     comment_count   INT,
-    created_time    TIMESTAMP WITHOUT TIME ZONE,
+    created_time    TIMESTAMP WITH TIME ZONE,
     like_count      INT,
     message         TEXT,
     parent          VARCHAR(255) REFERENCES facebook_comments(id),
@@ -633,8 +633,8 @@ CREATE TABLE facebook_comments (
     status_id       VARCHAR(255) REFERENCES facebook_statuses(id),
     user_id         VARCHAR(255) REFERENCES facebook_users(id),
     video_id        VARCHAR(255) REFERENCES facebook_videos(id),
-    created         TIMESTAMP WITHOUT TIME ZONE,
-    modified        TIMESTAMP WITHOUT TIME ZONE
+    created         TIMESTAMP WITH TIME ZONE,
+    modified        TIMESTAMP WITH TIME ZONE
 );
 CREATE UNIQUE INDEX facebook_comments_idx ON facebook_comments(id);
 
@@ -645,8 +645,8 @@ CREATE TABLE facebook_friendlists (
     id                  VARCHAR(255) NOT NULL PRIMARY KEY,
     name                TEXT,
     list_type           e_facebook_friendlists_list_type,
-    created             TIMESTAMP WITHOUT TIME ZONE,
-    modified            TIMESTAMP WITHOUT TIME ZONE
+    created             TIMESTAMP WITH TIME ZONE,
+    modified            TIMESTAMP WITH TIME ZONE
 );
 CREATE UNIQUE INDEX facebook_friendlists_idx ON facebook_friendlists(id);
 
@@ -656,8 +656,8 @@ DROP TABLE IF EXISTS facebook_categories CASCADE;
 CREATE TABLE facebook_categories (
     page_id         VARCHAR(255),
     category        VARCHAR(255) REFERENCES facebook_pages(id),
-    created         TIMESTAMP WITHOUT TIME ZONE,
-    modified        TIMESTAMP WITHOUT TIME ZONE
+    created         TIMESTAMP WITH TIME ZONE,
+    modified        TIMESTAMP WITH TIME ZONE
 );
 CREATE UNIQUE INDEX facebook_categories_ixd ON facebook_categories(page_id, category);
 
@@ -670,8 +670,8 @@ CREATE TABLE facebook_images_sources (
     height      INT,
     source      TEXT,
     width       INT,
-    created     TIMESTAMP WITHOUT TIME ZONE,
-    modified    TIMESTAMP WITHOUT TIME ZONE
+    created     TIMESTAMP WITH TIME ZONE,
+    modified    TIMESTAMP WITH TIME ZONE
 );
 CREATE UNIQUE INDEX facebook_images_sources_idx ON facebook_images_sources(id);
 
@@ -686,8 +686,8 @@ CREATE TABLE facebook_names_tags (
     name        TEXT,
     offset_     INT,
     type        TEXT,
-    created     TIMESTAMP WITHOUT TIME ZONE,
-    modified    TIMESTAMP WITHOUT TIME ZONE
+    created     TIMESTAMP WITH TIME ZONE,
+    modified    TIMESTAMP WITH TIME ZONE
 );
 CREATE UNIQUE INDEX facebook_names_tags_idx ON facebook_names_tags(id);
 
@@ -698,10 +698,10 @@ CREATE TABLE facebook_tag (
     photo_id        VARCHAR(255) REFERENCES facebook_photos(id),
     user_id         VARCHAR(255) REFERENCES facebook_users(id),
     name            TEXT,
-    created_time    TIMESTAMP WITHOUT TIME ZONE,
+    created_time    TIMESTAMP WITH TIME ZONE,
     tagging_user    VARCHAR(255) REFERENCES facebook_users(id),
-    created         TIMESTAMP WITHOUT TIME ZONE,
-    modified        TIMESTAMP WITHOUT TIME ZONE
+    created         TIMESTAMP WITH TIME ZONE,
+    modified        TIMESTAMP WITH TIME ZONE
 );
 CREATE UNIQUE INDEX facebook_tag_idx ON facebook_tag(photo_id, user_id);
 
@@ -712,8 +712,8 @@ CREATE TABLE facebook_family (
     user_id         VARCHAR(255) REFERENCES facebook_users(id),
     family_user_id  VARCHAR(255) REFERENCES facebook_users(id),
     relationship    TEXT,
-    created         TIMESTAMP WITHOUT TIME ZONE,
-    modified        TIMESTAMP WITHOUT TIME ZONE
+    created         TIMESTAMP WITH TIME ZONE,
+    modified        TIMESTAMP WITH TIME ZONE
 );
 CREATE UNIQUE INDEX facebook_family_idx ON facebook_family(user_id, family_user_id);
 
@@ -725,8 +725,8 @@ CREATE TABLE facebook_friends (
     friend          VARCHAR(255) REFERENCES facebook_users(id),
     still_friend    BOOLEAN DEFAULT true,
     friendlist_id   VARCHAR(255) REFERENCES facebook_friendlists(id),
-    created         TIMESTAMP WITHOUT TIME ZONE,
-    modified        TIMESTAMP WITHOUT TIME ZONE
+    created         TIMESTAMP WITH TIME ZONE,
+    modified        TIMESTAMP WITH TIME ZONE
 );
 CREATE UNIQUE INDEX facebook_friends_idx ON facebook_friends(user_id, friend, friendlist_id);
 
@@ -740,8 +740,8 @@ CREATE TABLE facebook_sharedposts (
     video_id        VARCHAR(255) REFERENCES facebook_videos(id),
     status_id       VARCHAR(255) REFERENCES facebook_statuses(id),
     post_id         VARCHAR(255) REFERENCES facebook_posts(id),
-    created         TIMESTAMP WITHOUT TIME ZONE,
-    modified        TIMESTAMP WITHOUT TIME ZONE
+    created         TIMESTAMP WITH TIME ZONE,
+    modified        TIMESTAMP WITH TIME ZONE
 );
 CREATE UNIQUE INDEX facebook_sharedposts_idx ON facebook_sharedposts(id);
 
@@ -758,9 +758,9 @@ CREATE TABLE facebook_pictures (
     is_silhouette   BOOLEAN,
     height          INT,
     width           INT,
-    created_time    TIMESTAMP WITHOUT TIME ZONE,
-    created         TIMESTAMP WITHOUT TIME ZONE,
-    modified        TIMESTAMP WITHOUT TIME ZONE
+    created_time    TIMESTAMP WITH TIME ZONE,
+    created         TIMESTAMP WITH TIME ZONE,
+    modified        TIMESTAMP WITH TIME ZONE
 );
 CREATE UNIQUE INDEX facebook_pictures_idx ON facebook_pictures(id);
 
@@ -775,8 +775,8 @@ CREATE TABLE facebook_formats (
     height          INT,
     picture         TEXT,
     width           INT,
-    created         TIMESTAMP WITHOUT TIME ZONE,
-    modified        TIMESTAMP WITHOUT TIME ZONE
+    created         TIMESTAMP WITH TIME ZONE,
+    modified        TIMESTAMP WITH TIME ZONE
 );
 CREATE UNIQUE INDEX facebook_formats_idx ON facebook_formats(id, video_id);
 
@@ -786,8 +786,8 @@ DROP TABLE IF EXISTS facebook_locations CASCADE;
 CREATE TABLE facebook_locations (
     page_id         VARCHAR(255) REFERENCES facebook_pages(id),
     location        VARCHAR(255) REFERENCES facebook_pages(id),
-    created         TIMESTAMP WITHOUT TIME ZONE,
-    modified        TIMESTAMP WITHOUT TIME ZONE
+    created         TIMESTAMP WITH TIME ZONE,
+    modified        TIMESTAMP WITH TIME ZONE
 );
 CREATE UNIQUE INDEX facebook_locations_idx ON facebook_locations(page_id, location);
 
@@ -797,8 +797,8 @@ DROP TABLE IF EXISTS facebook_photos_facebook_milestones CASCADE;
 CREATE TABLE facebook_photos_facebook_milestones (
     milestone_id    VARCHAR(255) REFERENCES facebook_milestones(id),
     photo_id        VARCHAR(255) REFERENCES facebook_photos(id),
-    created         TIMESTAMP WITHOUT TIME ZONE,
-    modified        TIMESTAMP WITHOUT TIME ZONE
+    created         TIMESTAMP WITH TIME ZONE,
+    modified        TIMESTAMP WITH TIME ZONE
 );
 CREATE UNIQUE INDEX facebook_photos_facebook_milestones_idx ON facebook_photos_facebook_milestones (milestone_id, photo_id);
 
@@ -819,9 +819,9 @@ CREATE TABLE facebook_likes (
     milestone_id    VARCHAR(255) REFERENCES facebook_milestones(id),
     photo_id        VARCHAR(255) REFERENCES facebook_photos(id),
     video_id        VARCHAR(255) REFERENCES facebook_videos(id),
-    created_time    TIMESTAMP WITHOUT TIME ZONE,
-    created         TIMESTAMP WITHOUT TIME ZONE,
-    modified        TIMESTAMP WITHOUT TIME ZONE
+    created_time    TIMESTAMP WITH TIME ZONE,
+    created         TIMESTAMP WITH TIME ZONE,
+    modified        TIMESTAMP WITH TIME ZONE
 );
 CREATE UNIQUE INDEX facebook_likes_idx ON facebook_likes(id);
 
@@ -836,8 +836,8 @@ CREATE TABLE facebook_posts_privacy (
     friends         e_facebook_posts_privacy_friends,
     allow           TEXT,
     deny            TEXT,
-    created         TIMESTAMP WITHOUT TIME ZONE,
-    modified        TIMESTAMP WITHOUT TIME ZONE
+    created         TIMESTAMP WITH TIME ZONE,
+    modified        TIMESTAMP WITH TIME ZONE
 );
 CREATE UNIQUE INDEX facebook_posts_privacy_idx ON facebook_posts_privacy(id);
 
@@ -850,8 +850,8 @@ CREATE TABLE facebook_posts_properties (
     name            TEXT,
     text_           TEXT,
     href            TEXT,
-    created         TIMESTAMP WITHOUT TIME ZONE,
-    modified        TIMESTAMP WITHOUT TIME ZONE
+    created         TIMESTAMP WITH TIME ZONE,
+    modified        TIMESTAMP WITH TIME ZONE
 );
 CREATE UNIQUE INDEX facebook_posts_properties_idx ON facebook_posts_properties(id);
 
@@ -866,8 +866,8 @@ CREATE TABLE facebook_posts_to (
     groups_id       VARCHAR(255) REFERENCES facebook_groups(id),
     event_id        VARCHAR(255) REFERENCES facebook_events(id),
     application_id  VARCHAR(255) REFERENCES facebook_applications(id),
-    created         TIMESTAMP WITHOUT TIME ZONE,
-    modified        TIMESTAMP WITHOUT TIME ZONE
+    created         TIMESTAMP WITH TIME ZONE,
+    modified        TIMESTAMP WITH TIME ZONE
 );
 CREATE UNIQUE INDEX facebook_posts_to_idx ON facebook_posts_to(id);
 
@@ -882,8 +882,8 @@ CREATE TABLE facebook_posts_with_tags (
     groups_id       VARCHAR(255) REFERENCES facebook_groups(id),
     event_id        VARCHAR(255) REFERENCES facebook_events(id),
     application_id  VARCHAR(255) REFERENCES facebook_applications(id),
-    created         TIMESTAMP WITHOUT TIME ZONE,
-    modified        TIMESTAMP WITHOUT TIME ZONE
+    created         TIMESTAMP WITH TIME ZONE,
+    modified        TIMESTAMP WITH TIME ZONE
 );
 CREATE UNIQUE INDEX facebook_posts_with_tags_idx ON facebook_posts_with_tags(id);
 
@@ -905,8 +905,8 @@ CREATE TABLE facebook_messages_tags (
     milestone_id        VARCHAR(255) REFERENCES facebook_milestones(id),
     photo_id            VARCHAR(255) REFERENCES facebook_photos(id),
     video_id            VARCHAR(255) REFERENCES facebook_videos(id),
-    created             TIMESTAMP WITHOUT TIME ZONE,
-    modified            TIMESTAMP WITHOUT TIME ZONE
+    created             TIMESTAMP WITH TIME ZONE,
+    modified            TIMESTAMP WITH TIME ZONE
 );
 CREATE UNIQUE INDEX facebook_messages_tags_idx ON facebook_messages_tags(id);
 
@@ -917,8 +917,8 @@ CREATE TABLE facebook_users_facebook_groups (
     user_id         VARCHAR(255) REFERENCES facebook_users(id),
     group_id        VARCHAR(255) REFERENCES facebook_groups(id),
     administrator   BOOLEAN,
-    created         TIMESTAMP WITHOUT TIME ZONE,
-    modified        TIMESTAMP WITHOUT TIME ZONE
+    created         TIMESTAMP WITH TIME ZONE,
+    modified        TIMESTAMP WITH TIME ZONE
 );
 CREATE UNIQUE INDEX facebook_users_facebook_groups_idx ON facebook_users_facebook_groups(user_id, group_id);
 
@@ -928,8 +928,8 @@ DROP TABLE IF EXISTS facebook_users_facebook_albums CASCADE;
 CREATE TABLE facebook_users_facebook_albums (
     user_id         VARCHAR(255) REFERENCES facebook_users(id),
     album_id        VARCHAR(255) REFERENCES facebook_albums(id),
-    created         TIMESTAMP WITHOUT TIME ZONE,
-    modified        TIMESTAMP WITHOUT TIME ZONE
+    created         TIMESTAMP WITH TIME ZONE,
+    modified        TIMESTAMP WITH TIME ZONE
 );
 CREATE UNIQUE INDEX facebook_users_facebook_albums_idx ON facebook_users_facebook_albums(user_id, album_id);
 
@@ -939,8 +939,8 @@ DROP TABLE IF EXISTS facebook_users_facebook_photos CASCADE;
 CREATE TABLE facebook_users_facebook_photos (
     user_id         VARCHAR(255) REFERENCES facebook_users(id),
     photo_id        VARCHAR(255) REFERENCES facebook_photos(id),
-    created         TIMESTAMP WITHOUT TIME ZONE,
-    modified        TIMESTAMP WITHOUT TIME ZONE
+    created         TIMESTAMP WITH TIME ZONE,
+    modified        TIMESTAMP WITH TIME ZONE
 );
 CREATE UNIQUE INDEX facebook_users_facebook_photos_idx ON facebook_users_facebook_photos(user_id, photo_id);
 
@@ -950,8 +950,8 @@ DROP TABLE IF EXISTS facebook_users_facebook_videos CASCADE;
 CREATE TABLE facebook_users_facebook_videos (
     user_id         VARCHAR(255) REFERENCES facebook_users(id),
     video_id        VARCHAR(255) REFERENCES facebook_videos(id),
-    created         TIMESTAMP WITHOUT TIME ZONE,
-    modified        TIMESTAMP WITHOUT TIME ZONE
+    created         TIMESTAMP WITH TIME ZONE,
+    modified        TIMESTAMP WITH TIME ZONE
 );
 CREATE UNIQUE INDEX facebook_users_facebook_videos_idx ON facebook_users_facebook_videos(user_id, video_id);
 
@@ -962,8 +962,8 @@ CREATE TABLE facebook_users_facebook_events (
     user_id         VARCHAR(255) REFERENCES facebook_users(id),
     event_id        VARCHAR(255) REFERENCES facebook_videos(id),
     status          e_facebook_users_facebook_events_status,
-    created         TIMESTAMP WITHOUT TIME ZONE,
-    modified        TIMESTAMP WITHOUT TIME ZONE
+    created         TIMESTAMP WITH TIME ZONE,
+    modified        TIMESTAMP WITH TIME ZONE
 );
 CREATE UNIQUE INDEX facebook_users_facebook_events_idx ON facebook_users_facebook_events(user_id, event_id);
 
@@ -976,8 +976,8 @@ CREATE TABLE facebook_user_feeds (
     link_id         VARCHAR(255) REFERENCES facebook_links(id),
     post_id         VARCHAR(255) REFERENCES facebook_posts(id),
     status_id       VARCHAR(255) REFERENCES facebook_statuses(id),
-    created         TIMESTAMP WITHOUT TIME ZONE,
-    modified        TIMESTAMP WITHOUT TIME ZONE
+    created         TIMESTAMP WITH TIME ZONE,
+    modified        TIMESTAMP WITH TIME ZONE
 );
 CREATE UNIQUE INDEX facebook_user_feeds_idx ON facebook_user_feeds(id);
 
@@ -990,8 +990,8 @@ CREATE TABLE facebook_event_feeds (
     link_id         VARCHAR(255) REFERENCES facebook_links(id),
     post_id         VARCHAR(255) REFERENCES facebook_posts(id),
     status_id       VARCHAR(255) REFERENCES facebook_statuses(id),
-    created         TIMESTAMP WITHOUT TIME ZONE,
-    modified        TIMESTAMP WITHOUT TIME ZONE
+    created         TIMESTAMP WITH TIME ZONE,
+    modified        TIMESTAMP WITH TIME ZONE
 );
 CREATE UNIQUE INDEX facebook_event_feeds_idx ON facebook_event_feeds(id);
 
@@ -1004,8 +1004,8 @@ CREATE TABLE facebook_group_feeds (
     link_id         VARCHAR(255) REFERENCES facebook_links(id),
     post_id         VARCHAR(255) REFERENCES facebook_posts(id),
     status_id       VARCHAR(255) REFERENCES facebook_statuses(id),
-    created         TIMESTAMP WITHOUT TIME ZONE,
-    modified        TIMESTAMP WITHOUT TIME ZONE
+    created         TIMESTAMP WITH TIME ZONE,
+    modified        TIMESTAMP WITH TIME ZONE
 );
 CREATE UNIQUE INDEX facebook_group_feeds_idx ON facebook_group_feeds(id);
 
@@ -1018,8 +1018,8 @@ CREATE TABLE facebook_page_feeds (
     link_id         VARCHAR(255) REFERENCES facebook_links(id),
     post_id         VARCHAR(255) REFERENCES facebook_posts(id),
     status_id       VARCHAR(255) REFERENCES facebook_statuses(id),
-    created         TIMESTAMP WITHOUT TIME ZONE,
-    modified        TIMESTAMP WITHOUT TIME ZONE
+    created         TIMESTAMP WITH TIME ZONE,
+    modified        TIMESTAMP WITH TIME ZONE
 );
 CREATE UNIQUE INDEX facebook_page_feeds_idx ON facebook_page_feeds(id);
 
@@ -1031,7 +1031,7 @@ CREATE TABLe twitter_users (
     user_id                 INT REFERENCES users(id),
     name                    TEXT,
     profile_image_url       TEXT,
-    created_at              TIMESTAMP WITHOUT TIME ZONE,
+    created_at              TIMESTAMP WITH TIME ZONE,
     location                TEXT,
     favourites_count        INT,
     listed_count            INT,
@@ -1044,8 +1044,8 @@ CREATE TABLe twitter_users (
     friends_count           INT,
     following               INT,
     screen_name             TEXT,
-    created                 TIMESTAMP WITHOUT TIME ZONE,
-    modified                TIMESTAMP WITHOUT TIME ZONE
+    created                 TIMESTAMP WITH TIME ZONE,
+    modified                TIMESTAMP WITH TIME ZONE
 );
 CREATE UNIQUE INDEX twitter_users_idx ON twitter_users(id);
 
@@ -1056,8 +1056,8 @@ CREATE TABLE twitter_friendships (
     user_id         BIGINT REFERENCES twitter_users(id),
     friend          BIGINT REFERENCES twitter_users(id),
     still_friend    BOOLEAN DEFAULT true,
-    created         TIMESTAMP WITHOUT TIME ZONE,
-    modified        TIMESTAMP WITHOUT TIME ZONE
+    created         TIMESTAMP WITH TIME ZONE,
+    modified        TIMESTAMP WITH TIME ZONE
 );
 CREATE UNIQUE INDEX twitter_friendships_idx ON twitter_friendships(user_id, friend);
 
@@ -1071,7 +1071,7 @@ DROP TABLE IF EXISTS twitter_statuses CASCADE;
 CREATE TABLE twitter_statuses (
     id                          BIGINT NOT NULL PRIMARY KEY,
     user_id                     INT REFERENCES twitter_users(id),
-    created_at                  TIMESTAMP WITHOUT TIME ZONE,
+    created_at                  TIMESTAMP WITH TIME ZONE,
     in_reply_to_user_id         INT,
     retweet_count               INT,
     in_reply_to_status_id       INT,
@@ -1080,8 +1080,8 @@ CREATE TABLE twitter_statuses (
     place                       TEXT,
     source                      TEXT,
     full_content                TEXT,
-    created                     TIMESTAMP WITHOUT TIME ZONE,
-    modified                    TIMESTAMP WITHOUT TIME ZONE
+    created                     TIMESTAMP WITH TIME ZONE,
+    modified                    TIMESTAMP WITH TIME ZONE
 
 );
 CREATE UNIQUE INDEX twitter_statuses_idx ON twitter_statuses(id);
@@ -1101,8 +1101,8 @@ CREATE TABLE rates (
     depression          INT,
     harassment          INT,
     uncategorized       INT,
-    created             TIMESTAMP WITHOUT TIME ZONE,
-    modified            TIMESTAMP WITHOUT TIME ZONE
+    created             TIMESTAMP WITH TIME ZONE,
+    modified            TIMESTAMP WITH TIME ZONE
 );
 
 
@@ -1112,8 +1112,8 @@ CREATE TABLE teams (
     id                  SERIAL NOT NULL PRIMARY KEY,
     admin_id            INT REFERENCES admins(id),
     user_id             INT REFERENCES users(id),
-    created             TIMESTAMP WITHOUT TIME ZONE,
-    modified            TIMESTAMP WITHOUT TIME ZONE
+    created             TIMESTAMP WITH TIME ZONE,
+    modified            TIMESTAMP WITH TIME ZONE
 );
 CREATE UNIQUE INDEX teams_idx ON teams(id);
 
