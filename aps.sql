@@ -1027,7 +1027,7 @@ CREATE UNIQUE INDEX facebook_page_feeds_idx ON facebook_page_feeds(id);
 -- TABLE twitter_users *********************************************************
 DROP TABLE IF EXISTS twitter_users CASCADE;
 CREATE TABLe twitter_users (
-    id                      BIGINT NOT NULL PRIMARY KEY,
+    id                      NUMERIC NOT NULL PRIMARY KEY,
     user_id                 INT REFERENCES users(id),
     name                    TEXT,
     profile_image_url       TEXT,
@@ -1053,8 +1053,8 @@ CREATE UNIQUE INDEX twitter_users_idx ON twitter_users(id);
 -- TABLE twitter_friendships ***************************************************
 DROP TABLE IF EXISTS twitter_friendships CASCADE;
 CREATE TABLE twitter_friendships (
-    user_id         BIGINT REFERENCES twitter_users(id),
-    friend          BIGINT REFERENCES twitter_users(id),
+    user_id         NUMERIC REFERENCES twitter_users(id),
+    friend          NUMERIC REFERENCES twitter_users(id),
     still_friend    BOOLEAN DEFAULT true,
     created         TIMESTAMP WITH TIME ZONE,
     modified        TIMESTAMP WITH TIME ZONE
@@ -1069,7 +1069,7 @@ COMMENT ON COLUMN twitter_friendships.friend IS 'Profil suivi par le follower';
 -- TABLE twitter_statuses ******************************************************
 DROP TABLE IF EXISTS twitter_statuses CASCADE;
 CREATE TABLE twitter_statuses (
-    id                          BIGINT NOT NULL PRIMARY KEY,
+    id                          NUMERIC NOT NULL PRIMARY KEY,
     user_id                     INT REFERENCES twitter_users(id),
     created_at                  TIMESTAMP WITH TIME ZONE,
     in_reply_to_user_id         INT,
@@ -1091,7 +1091,7 @@ CREATE UNIQUE INDEX twitter_statuses_idx ON twitter_statuses(id);
 DROP TABLE IF EXISTS rates CASCADE;
 CREATE TABLE rates (
     id                  SERIAL NOT NULL PRIMARY KEY,
-    twitter_status_id   BIGINT REFERENCES twitter_statuses(id),
+    twitter_status_id   NUMERIC REFERENCES twitter_statuses(id),
     facebook_post_id    VARCHAR REFERENCES facebook_posts(id),
     facebook_status_id  VARCHAR REFERENCES facebook_statuses(id),
     facebook_link_id    VARCHAR REFERENCES facebook_links(id),
