@@ -1070,7 +1070,7 @@ COMMENT ON COLUMN twitter_friendships.friend IS 'Profil suivi par le follower';
 DROP TABLE IF EXISTS twitter_statuses CASCADE;
 CREATE TABLE twitter_statuses (
     id                          NUMERIC NOT NULL PRIMARY KEY,
-    user_id                     INT REFERENCES twitter_users(id),
+    user_id                     NUMERIC REFERENCES twitter_users(id),
     created_at                  TIMESTAMP WITH TIME ZONE,
     in_reply_to_user_id         INT,
     retweet_count               INT,
