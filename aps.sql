@@ -51,17 +51,30 @@ CREATE TYPE e_facebook_users_facebook_events_status AS ENUM ( 'attending', 'decl
 -- TABLE admins ****************************************************************
 DROP TABLE IF EXISTS admins CASCADE;
 CREATE TABLE admins (
-    id              SERIAL NOT NULL PRIMARY KEY,
-    name            VARCHAR(255) NOT NULL,
-    password        VARCHAR(255) NOT NULL,
-    status          e_admins_statuses NOT NULL,
-    phone_number    VARCHAR(255),
-    mobile_number   VARCHAR(255),
-    address         VARCHAR(255),
-    email           VARCHAR(255),
-    permission      INT,
-    created         TIMESTAMP WITH TIME ZONE,
-    modified        TIMESTAMP WITH TIME ZONE
+    id                          SERIAL NOT NULL PRIMARY KEY,
+    username                    VARCHAR(255) NOT NULL,
+    username_canonical          VARCHAR(255) NOT NULL,
+    email                       VARCHAR(255),
+    email_canonical             VARCHAR(255),
+    enabled                     BOOLEAN,
+    salt                        VARCHAR(255),
+    password                    VARCHAR(255) NOT NULL,
+    last_login                  TIMESTAMP WITH TIME ZONE,
+    locked                      BOOLEAN,
+    expired                     BOOLEAN,
+    expires_at                  TIMESTAMP WITH TIME ZONE,
+    confirmation_token          VARCHAR(255),
+    password_requested_at       TIMESTAMP WITH TIME ZONE,
+    roles                       TEXT,
+    credentials_expired         BOOLEAN,
+    credentials_expire_at       TIMESTAMP WITH TIME ZONE,
+    status                      e_admins_statuses NOT NULL,
+    phone_number                VARCHAR(255),
+    mobile_number               VARCHAR(255),
+    address                     VARCHAR(255),
+    permission                  INT,
+    created                     TIMESTAMP WITH TIME ZONE,
+    modified                    TIMESTAMP WITH TIME ZONE
 );
 CREATE UNIQUE INDEX admins_idx ON admins( id );
 COMMENT ON TABLE admins IS 'Liste de tous les utilisateurs l\'application';
@@ -154,7 +167,7 @@ CREATE TABLE facebook_pages (
 );
 CREATE TABLE facebook_users (
     id                  VARCHAR(255) NOT NULL PRIMARY KEY,
-    user_id             INT NOT NULL REFERENCES users(id),
+    user_id             INT REFERENCES users(id),
     about               TEXT,
     bio                 TEXT,
     birthday            VARCHAR(10),
@@ -1072,9 +1085,9 @@ CREATE TABLE twitter_statuses (
     id                          NUMERIC NOT NULL PRIMARY KEY,
     user_id                     NUMERIC REFERENCES twitter_users(id),
     created_at                  TIMESTAMP WITH TIME ZONE,
-    in_reply_to_user_id         INT,
+    in_reply_to_user_id         NUMERIC,
     retweet_count               INT,
-    in_reply_to_status_id       INT,
+    in_reply_to_status_id       NUMERIC,
     text_                       VARCHAR(140),
     in_reply_to_screen_name     TEXT,
     place                       TEXT,
